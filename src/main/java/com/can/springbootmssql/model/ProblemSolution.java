@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Data
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Entity
 @IdClass(ProblemSolution.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "problem_solutions")
 public class ProblemSolution  implements Serializable {
 
     @Id

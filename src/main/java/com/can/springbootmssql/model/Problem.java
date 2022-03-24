@@ -2,11 +2,17 @@ package com.can.springbootmssql.model;
 
 
 import com.can.springbootmssql.model.Audit.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,7 +22,9 @@ import java.util.Set;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "problems")
-public class Problem extends AuditModel<String> {
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","solutions"})
+
+public class Problem extends AuditModel<String> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +40,7 @@ public class Problem extends AuditModel<String> {
             inverseJoinColumns = {
                     @JoinColumn(name = "solution_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-    Set<Solution> solutions = new HashSet<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    List<Solution> solutions ;
 
 }
